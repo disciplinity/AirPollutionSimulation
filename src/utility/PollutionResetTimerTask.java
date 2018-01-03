@@ -3,7 +3,7 @@ package utility;
 /**
  * Created by Daiy on 02.01.2018.
  */
-public class PollutionResetTimerTask implements Runnable{
+public class PollutionResetTimerTask implements Runnable {
 
     private Flag flag;
 
@@ -15,7 +15,7 @@ public class PollutionResetTimerTask implements Runnable{
     public void run() {
         while (true) {
             try {
-                if (!flag.isTimerOff()) {
+                if (!flag.timerIsOff()) {
                     System.out.println("Two second timer has started...");
                     Thread.sleep(2000);
                     System.out.println("Two second timer has stopped...");

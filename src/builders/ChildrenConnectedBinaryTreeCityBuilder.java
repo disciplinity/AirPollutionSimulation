@@ -1,8 +1,8 @@
-package city.builder;
+package builders;
 
-import city.map.Graph;
-import city.map.Intersection;
-import city.map.Street;
+import graph.Graph;
+import graph.Intersection;
+import graph.Street;
 
 import java.util.Arrays;
 

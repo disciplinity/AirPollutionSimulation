@@ -1,4 +1,4 @@
-package city.map;
+package graph;
 
 /**
  * Created by Daiy on 31.12.2017.
