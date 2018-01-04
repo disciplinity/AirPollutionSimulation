@@ -7,7 +7,7 @@ import graph.Graph;
 import transport.Car;
 import transport.EngineType;
 import utility.BirdSingingTask;
-import utility.CarStorage;
+import transport.CarStorage;
 import utility.Flag;
 import utility.PollutionResetTimerTask;
 
@@ -47,8 +47,8 @@ public class Controller {
         interConnectedBinaryTreeCityBuilder.build();
 
         EngineType[] engineTypes = {EngineType.ELECTRIC, EngineType.LEMONADE, EngineType.DIESEL,  EngineType.PETROL};
-        ExecutorService executorService = Executors.newFixedThreadPool(200);
-        final int CARS_IN_THE_CITY = 200;
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        final int CARS_IN_THE_CITY = 2;
         EngineType engineType;
         Random random = new Random();
 

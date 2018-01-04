@@ -59,10 +59,15 @@ public class Car implements Runnable {
         environmentalProtectionDataCenter.getCarStorage().getCars().add(this);
     }
 
+    private boolean allConditionsMetToChangeEngine() {
+        return !hadEngineChanged && timesStoppedByEPDC >= 2 && random.nextInt(6) == 3
+                && (engineType == EngineType.PETROL || engineType == EngineType.DIESEL);
+    }
+
 
     @Override
     public String toString() {
-        return "transport.Car[" + carId + "/" + engineType + "]";
+        return "Car[" + carId + "/" + engineType + "]";
     }
 
     @Override
@@ -75,10 +80,9 @@ public class Car implements Runnable {
 
                 if (isOnTheIntersectionWithCarService()) {
                     // One in six chance to decide upon changing the engine
-                    if (!hadEngineChanged && timesStoppedByEPDC >= 2 && random.nextInt(6) == 3
-                           && (engineType == EngineType.PETROL || engineType == EngineType.DIESEL)) {
-
+                    if (allConditionsMetToChangeEngine()) {
                         wantsToChangeEngine = true;
+                        Thread.sleep(50);
                         removeSelfFromEnvironmentalProtectionDataCenter();
                     }
 

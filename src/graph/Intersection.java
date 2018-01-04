@@ -2,7 +2,7 @@ package graph;
 
 
 import transport.Car;
-import utility.CarStorage;
+import transport.CarStorage;
 
 /**
  * Created by Daiy on 31.12.2017.

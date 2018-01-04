@@ -1,7 +1,7 @@
 package buildings;
 
 import transport.EngineType;
-import utility.CarStorage;
+import transport.CarStorage;
 import utility.Flag;
 
 import java.text.DecimalFormat;
@@ -93,7 +93,7 @@ public class EnvironmentalProtectionDataCenter {
         amountOfAirPollution.reset();
 
         if (carsWithInternalCombustionEngine >= 70) {
-            DecimalFormat df = new DecimalFormat("0.00");
+            DecimalFormat df = new DecimalFormat("#.##");
             double formattedFortyPercentOfAirPollutionBeforeReset = Double.valueOf(df.format(fortyPercentOfAmountOfAirPollutionBeforeReset));
             amountOfAirPollution.add(formattedFortyPercentOfAirPollutionBeforeReset);
         }
