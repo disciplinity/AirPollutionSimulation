@@ -29,10 +29,10 @@ public class Controller {
      *                                   2 O _____ O 3
      *                                   / \      / \
      *                                  /   \    /   \
-     *                               4 O____O___O____O 7
+     *                               4 O____O   O____O 7
      *                                /\   /\   /\  /\
      *                               / \  / \  / \ /  \
-     *                            8 O__O_O__O_O__O_O__O 15
+     *                            8 O__O O__O O__O O__O 15
      *                              ...
      *                              ...
      */
@@ -47,8 +47,8 @@ public class Controller {
         interConnectedBinaryTreeCityBuilder.build();
 
         EngineType[] engineTypes = {EngineType.ELECTRIC, EngineType.LEMONADE, EngineType.DIESEL,  EngineType.PETROL};
-        ExecutorService executorService = Executors.newFixedThreadPool(200);
-        final int CARS_IN_THE_CITY = 200;
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        final int CARS_IN_THE_CITY = 2;
         EngineType engineType;
         Random random = new Random();
 

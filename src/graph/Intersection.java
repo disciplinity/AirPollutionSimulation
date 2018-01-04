@@ -1,8 +1,6 @@
 package graph;
 
 
-import transport.Car;
-import transport.CarStorage;
 
 /**
  * Created by Daiy on 31.12.2017.
@@ -10,6 +8,7 @@ import transport.CarStorage;
  */
 public class Intersection {
     private int uniqueLabel;
+    private boolean hasBrokenCarOnIt = false;
 
     public Intersection() {
     }
@@ -45,5 +44,6 @@ public class Intersection {
     public String toString() {
         return String.valueOf(uniqueLabel);
     }
+
 
 }

@@ -20,6 +20,7 @@ public class PollutionResetTimerTask implements Runnable {
                     Thread.sleep(2000);
                     System.out.println("Two second timer has stopped...");
                     flag.turnTimerOff();
+
                 }
 
             } catch (InterruptedException e) {

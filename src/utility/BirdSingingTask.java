@@ -23,6 +23,8 @@ public class BirdSingingTask implements Runnable {
                     System.out.println("Inimene tark, inimene tark – saastet täis on linnapark");
                 }
                 Thread.sleep(4000);
+
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

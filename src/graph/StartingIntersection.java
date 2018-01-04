@@ -13,7 +13,7 @@ public class StartingIntersection extends Intersection {
         this.carStorage = carStorage;
     }
 
-    public void registerCar(Car car) {
+    public synchronized void registerCar(Car car) {
         carStorage.registerCar(car);
     }
 }

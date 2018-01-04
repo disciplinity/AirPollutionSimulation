@@ -34,15 +34,15 @@ public class CarService {
             EngineType[] engineTypesToChooseFrom = {EngineType.LEMONADE, EngineType.ELECTRIC};
             car.setEngineType(engineTypesToChooseFrom[r.nextInt(2)]);
 
-//            fixedCars.get(car).setEngineType();
             System.out.println(car + " had engine changed.");
+            car.setWantsToChangeEngine(false);
         }
 
-        if (!fixedCars.contains(car)) {
-
-        }
         System.out.println("Finished working on " + car + "...");
-
+        if (!fixedCars.contains(car)) {
+            fixedCars.add(car);
+        }
     }
+
 
 }

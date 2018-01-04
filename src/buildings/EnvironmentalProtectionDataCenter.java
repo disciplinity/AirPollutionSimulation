@@ -1,5 +1,7 @@
 package buildings;
 
+import graph.Intersection;
+import transport.Car;
 import transport.EngineType;
 import transport.CarStorage;
 import utility.Flag;
@@ -17,7 +19,6 @@ public class EnvironmentalProtectionDataCenter {
     private CarStorage carStorage;
     private Flag flag;
     private DoubleAdder amountOfAirPollution;
-    private boolean timerOff = true;
 
     public EnvironmentalProtectionDataCenter(CarStorage carStorage) {
         this.carStorage = carStorage;
@@ -101,6 +102,11 @@ public class EnvironmentalProtectionDataCenter {
             amountOfAirPollution.add(fortyPercentOfAmountOfAirPollutionBeforeReset);
         }
         System.out.println("Polution reduced back to: " + amountOfAirPollution.doubleValue());
+    }
+
+    public synchronized void sendOutHelpingTowCar() throws InterruptedException {
+        System.out.println("Tow-in car sent to help.");
+        wait();
     }
 
 }
