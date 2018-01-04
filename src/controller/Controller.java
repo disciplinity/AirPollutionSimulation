@@ -47,8 +47,8 @@ public class Controller {
         interConnectedBinaryTreeCityBuilder.build();
 
         EngineType[] engineTypes = {EngineType.ELECTRIC, EngineType.LEMONADE, EngineType.DIESEL,  EngineType.PETROL};
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
-        final int CARS_IN_THE_CITY = 2;
+        ExecutorService executorService = Executors.newFixedThreadPool(200);
+        final int CARS_IN_THE_CITY = 200;
         EngineType engineType;
         Random random = new Random();
 

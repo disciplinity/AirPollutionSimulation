@@ -90,13 +90,17 @@ public class EnvironmentalProtectionDataCenter {
                 .count();
 
         double fortyPercentOfAmountOfAirPollutionBeforeReset = amountOfAirPollution.doubleValue() * 0.4;
+        // Now rounding to two decimal places
+        fortyPercentOfAmountOfAirPollutionBeforeReset = Math.round(fortyPercentOfAmountOfAirPollutionBeforeReset * 100);
+        fortyPercentOfAmountOfAirPollutionBeforeReset = fortyPercentOfAmountOfAirPollutionBeforeReset/100;
+
         amountOfAirPollution.reset();
 
         if (carsWithInternalCombustionEngine >= 70) {
-            DecimalFormat df = new DecimalFormat("#.##");
-            double formattedFortyPercentOfAirPollutionBeforeReset = Double.valueOf(df.format(fortyPercentOfAmountOfAirPollutionBeforeReset));
-            amountOfAirPollution.add(formattedFortyPercentOfAirPollutionBeforeReset);
+
+            amountOfAirPollution.add(fortyPercentOfAmountOfAirPollutionBeforeReset);
         }
+        System.out.println("Polution reduced back to: " + amountOfAirPollution.doubleValue());
     }
 
 }

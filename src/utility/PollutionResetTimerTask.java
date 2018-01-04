@@ -17,7 +17,7 @@ public class PollutionResetTimerTask implements Runnable {
             try {
                 if (!flag.timerIsOff()) {
                     System.out.println("Two second timer has started...");
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                     System.out.println("Two second timer has stopped...");
                     flag.turnTimerOff();
                 }

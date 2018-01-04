@@ -4,6 +4,7 @@ import buildings.CarService;
 import buildings.EnvironmentalProtectionDataCenter;
 import graph.Graph;
 import graph.Intersection;
+import graph.StartingIntersection;
 
 import java.util.List;
 import java.util.Random;
@@ -31,7 +32,7 @@ public class Car implements Runnable {
         this.graph = graph;
         this.environmentalProtectionDataCenter = environmentalProtectionDataCenter;
         currentIntersection = new Intersection(graph.getEntryToCityIntersectionLabels().get(random.nextInt(4)));
-        entryToTheCity = new Intersection(currentIntersection.getLabel(), environmentalProtectionDataCenter.getCarStorage());
+        entryToTheCity = new StartingIntersection(currentIntersection.getLabel(), environmentalProtectionDataCenter.getCarStorage());
     }
 
     public EngineType getEngineType() {
@@ -72,11 +73,11 @@ public class Car implements Runnable {
 
     @Override
     public void run() {
-        entryToTheCity.registerCar(this);
-        System.out.println(this + " has ENTERED the graph from graph.Intersection[" + entryToTheCity.getLabel() +"].");
+        ((StartingIntersection)entryToTheCity).registerCar(this);
+//        System.out.println(this + " has ENTERED the graph from Intersection[" + entryToTheCity.getLabel() +"].");
         while (true) {
             try {
-                System.out.println(this + " - Current intersection: " + currentIntersection.getLabel());
+//                System.out.println(this + " - Current intersection: " + currentIntersection.getLabel());
 
                 if (isOnTheIntersectionWithCarService()) {
                     // One in six chance to decide upon changing the engine
@@ -114,8 +115,8 @@ public class Car implements Runnable {
     }
 
     private void crossStreet() throws InterruptedException {
-        Thread.sleep(1000);
-//        Thread.sleep(random.nextInt(18) + 3);
+//        Thread.sleep(1000);
+        Thread.sleep(random.nextInt(18) + 3);
         List<Intersection> adjacentIntersections = graph.getAdjIntersections(currentIntersection);
         currentIntersection = adjacentIntersections.get(random.nextInt(adjacentIntersections.size()));
         streetsCrossed++;

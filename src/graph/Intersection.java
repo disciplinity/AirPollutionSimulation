@@ -10,20 +10,13 @@ import transport.CarStorage;
  */
 public class Intersection {
     private int uniqueLabel;
-    private CarStorage carStorage;
+
+    public Intersection() {
+    }
 
     public Intersection(int uniqueLabel) {
         super();
         this.uniqueLabel = uniqueLabel;
-    }
-
-    public Intersection(int uniqueLabel, CarStorage carStorage) {
-        this.uniqueLabel = uniqueLabel;
-        this.carStorage = carStorage;
-    }
-
-    public void registerCar(Car car) {
-        carStorage.registerCar(car);
     }
 
     @Override
