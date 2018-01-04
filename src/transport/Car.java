@@ -82,7 +82,6 @@ public class Car implements Runnable {
                     // One in six chance to decide upon changing the engine
                     if (allConditionsMetToChangeEngine()) {
                         wantsToChangeEngine = true;
-                        Thread.sleep(50);
                         removeSelfFromEnvironmentalProtectionDataCenter();
                     }
 
@@ -115,7 +114,8 @@ public class Car implements Runnable {
     }
 
     private void crossStreet() throws InterruptedException {
-        Thread.sleep(random.nextInt(18) + 3);
+        Thread.sleep(1000);
+//        Thread.sleep(random.nextInt(18) + 3);
         List<Intersection> adjacentIntersections = graph.getAdjIntersections(currentIntersection);
         currentIntersection = adjacentIntersections.get(random.nextInt(adjacentIntersections.size()));
         streetsCrossed++;
@@ -125,7 +125,7 @@ public class Car implements Runnable {
         return environmentalProtectionDataCenter.tellCarToWaitIfPollutionIsTooHigh(engineType);
     }
 
-    private void goToCarService() {
+    private void goToCarService() throws InterruptedException {
         CarService carService = graph.findCarServiceByLabel(currentIntersection.getLabel());
         carService.workOnCar(this);
     }
