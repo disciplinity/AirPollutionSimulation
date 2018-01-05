@@ -1,7 +1,7 @@
 package graph;
 
 import transport.Car;
-import transport.CarStorage;
+import utility.CarStorage;
 
 public class StartingIntersection extends Intersection {
 

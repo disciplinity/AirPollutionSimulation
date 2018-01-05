@@ -42,6 +42,8 @@ public class TowingCar extends Car implements Runnable {
         if (currentIntersection.getBrokenCars().size() > 0) {
 
             Car brokenCar = currentIntersection.getBrokenCars().remove(0);
+            brokenCar.setMarmeladeTires();
+
             System.out.println("Towing car has found BROKEN " + brokenCar + " at Intersection " + currentIntersection.getLabel());
             if (brokenCar.getEngineType() == EngineType.ELECTRIC || brokenCar.getEngineType() == EngineType.LEMONADE) {
                 brokenCar.setMarmeladeTires();

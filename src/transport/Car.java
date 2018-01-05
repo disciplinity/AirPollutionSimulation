@@ -133,7 +133,7 @@ public class Car implements Runnable {
 //        Thread.sleep(1000);
         int intersectionLabelWeCameFrom = currentIntersection.getLabel();
 //        Thread.sleep(1000);
-        Thread.sleep(random.nextInt(18) + 3);
+        //Thread.sleep(random.nextInt(18) + 3);
         List<Intersection> adjacentIntersections = graph.getAdjIntersections(currentIntersection);
         currentIntersection = adjacentIntersections.get(random.nextInt(adjacentIntersections.size()));
         int intersectionLabelWeWentTo = currentIntersection.getLabel();

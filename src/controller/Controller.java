@@ -5,12 +5,11 @@ import builders.CityBuilder;
 import buildings.EnvironmentalProtectionDataCenter;
 import graph.Graph;
 import strategies.JsonStrategy;
-import strategies.PlainTextStrategy;
 import strategies.Strategy;
 import transport.Car;
 import transport.EngineType;
 import tasks.BirdSingingTask;
-import transport.CarStorage;
+import utility.CarStorage;
 import threadmanagers.BrokenCarController;
 import utility.Flag;
 import tasks.PollutionResetTimerTask;
@@ -58,7 +57,7 @@ public class Controller {
         interConnectedBinaryTreeCityBuilder.build();
 
         EngineType[] engineTypes = {EngineType.ELECTRIC, EngineType.LEMONADE, EngineType.DIESEL,  EngineType.PETROL};
-        final int CARS_IN_THE_CITY = 200;
+        final int CARS_IN_THE_CITY = 1;
         ExecutorService executorService = Executors.newFixedThreadPool(CARS_IN_THE_CITY);
         EngineType engineType;
         Random random = new Random();

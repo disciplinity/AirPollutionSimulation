@@ -35,9 +35,7 @@ public class ChildrenConnectedBinaryTreeCityBuilder implements CityBuilder {
             graph.addStreet(new Street(intersection2, intersection3));
         }
 
-        System.out.println(graph.getIntersectionLabelsBetweenBadRoads());
         List<Intersection> intersections = new ArrayList<>(graph.getIntersections());
-        System.out.println(graph.getAdjIntersections(intersections.get(13)));
     }
 
 

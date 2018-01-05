@@ -2,7 +2,7 @@ package buildings;
 
 import strategies.Strategy;
 import transport.EngineType;
-import transport.CarStorage;
+import utility.CarStorage;
 import utility.Flag;
 import threadmanagers.BrokenCarController;
 
@@ -74,8 +74,8 @@ public class EnvironmentalProtectionDataCenter {
     }
 
     public synchronized boolean tellCarToWaitIfPollutionIsTooHigh(EngineType engineType) throws InterruptedException {
-        if ((engineType == EngineType.DIESEL && amountOfAirPollution.doubleValue() >= 400) ||
-                (engineType == EngineType.PETROL && amountOfAirPollution.doubleValue() >= 500)) {
+        if ((engineType == EngineType.DIESEL && amountOfAirPollution.doubleValue() >= 20) ||
+                (engineType == EngineType.PETROL && amountOfAirPollution.doubleValue() >= 30)) {
 
             if (flag.timerIsOff()) {
                 flag.turnTimerOn();
@@ -92,7 +92,6 @@ public class EnvironmentalProtectionDataCenter {
     }
 
     private void resetAirPollutionDependingOnCarsInTown() {
-        System.out.println(getInfoAboutSituationInTown());
         long carsWithInternalCombustionEngine = carStorage.getCars().stream()
                 .filter(s -> s.getEngineType() == EngineType.DIESEL || s.getEngineType() == EngineType.PETROL)
                 .count();
