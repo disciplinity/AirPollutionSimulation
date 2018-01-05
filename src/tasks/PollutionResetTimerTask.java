@@ -1,4 +1,6 @@
-package utility;
+package tasks;
+
+import utility.Flag;
 
 /**
  * Created by Daiy on 02.01.2018.

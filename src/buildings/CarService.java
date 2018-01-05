@@ -7,6 +7,7 @@ import transport.EngineType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 /**
  * Created by Daiy on 03.01.2018.
@@ -42,6 +43,10 @@ public class CarService {
         if (!fixedCars.contains(car)) {
             fixedCars.add(car);
         }
+    }
+
+    public void getInfoAboutCar(Consumer<List<Car>> lambda) {
+        lambda.accept(fixedCars);
     }
 
 

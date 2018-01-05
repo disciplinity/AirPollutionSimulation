@@ -19,7 +19,7 @@ public class ChildrenConnectedBinaryTreeCityBuilder implements CityBuilder {
         this.graph = graph;
     }
 
-    public Graph build() {
+    public void build() {
 
         // Making binary tree (the root element is 1)
         Intersection intersection1, intersection2, intersection3;
@@ -38,7 +38,6 @@ public class ChildrenConnectedBinaryTreeCityBuilder implements CityBuilder {
         System.out.println(graph.getIntersectionLabelsBetweenBadRoads());
         List<Intersection> intersections = new ArrayList<>(graph.getIntersections());
         System.out.println(graph.getAdjIntersections(intersections.get(13)));
-        return graph;
     }
 
 

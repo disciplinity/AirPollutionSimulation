@@ -49,6 +49,9 @@ public class Graph {
         return null; // Shouldn't happen
     }
 
+    public EnvironmentalProtectionDataCenter getEnvironmentalProtectionDataCenter() {
+        return environmentalProtectionDataCenter;
+    }
 
     public boolean addIntersection(int label) {
         return intersections.add(new Intersection(label));

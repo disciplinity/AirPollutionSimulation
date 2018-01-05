@@ -4,12 +4,17 @@ import builders.ChildrenConnectedBinaryTreeCityBuilder;
 import builders.CityBuilder;
 import buildings.EnvironmentalProtectionDataCenter;
 import graph.Graph;
+import strategies.JsonStrategy;
+import strategies.PlainTextStrategy;
+import strategies.Strategy;
 import transport.Car;
 import transport.EngineType;
-import utility.BirdSingingTask;
+import tasks.BirdSingingTask;
 import transport.CarStorage;
+import threadmanagers.BrokenCarController;
 import utility.Flag;
-import utility.PollutionResetTimerTask;
+import tasks.PollutionResetTimerTask;
+import tasks.ProgrammeEnderTask;
 
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -35,20 +40,26 @@ public class Controller {
      *                            8 O__O O__O O__O O__O 15
      *                              ...
      *                              ...
+     *
+     *                              PROGRAMME STOPS WORKING WHEN ALL CARS HAVE MARMALADE TIRES.
      */
     public void startSimulation() {
 
         CarStorage carStorage = new CarStorage();
-        EnvironmentalProtectionDataCenter environmentalProtectionDataCenter = new EnvironmentalProtectionDataCenter(carStorage);
+        BrokenCarController brokenCarController = new BrokenCarController();
+        Strategy overviewStrategy = new JsonStrategy();
+        EnvironmentalProtectionDataCenter environmentalProtectionDataCenter = new EnvironmentalProtectionDataCenter(carStorage, brokenCarController, overviewStrategy);
         Flag flag = new Flag(environmentalProtectionDataCenter);
-        environmentalProtectionDataCenter.setFlag(flag);
         Graph graph = new Graph(environmentalProtectionDataCenter);
+        environmentalProtectionDataCenter.setFlag(flag);
+        brokenCarController.setGraph(graph);
+
         CityBuilder interConnectedBinaryTreeCityBuilder = new ChildrenConnectedBinaryTreeCityBuilder(graph);
         interConnectedBinaryTreeCityBuilder.build();
 
         EngineType[] engineTypes = {EngineType.ELECTRIC, EngineType.LEMONADE, EngineType.DIESEL,  EngineType.PETROL};
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
-        final int CARS_IN_THE_CITY = 2;
+        final int CARS_IN_THE_CITY = 200;
+        ExecutorService executorService = Executors.newFixedThreadPool(CARS_IN_THE_CITY);
         EngineType engineType;
         Random random = new Random();
 
@@ -57,6 +68,9 @@ public class Controller {
 
         Thread birdThread = new Thread(new BirdSingingTask(environmentalProtectionDataCenter));
         birdThread.start();
+
+        Thread programmeStoppingThread = new Thread(new ProgrammeEnderTask(environmentalProtectionDataCenter, CARS_IN_THE_CITY));
+        programmeStoppingThread.start();
 
         // Putting cars in the graph
         for (int i = 1; i <= CARS_IN_THE_CITY; i++) {
@@ -67,6 +81,7 @@ public class Controller {
             }
             executorService.submit(new Car(engineType, graph, environmentalProtectionDataCenter));
         }
+
     }
 
 }

@@ -1,4 +1,4 @@
-package utility;
+package tasks;
 
 import buildings.EnvironmentalProtectionDataCenter;
 

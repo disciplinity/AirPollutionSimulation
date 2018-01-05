@@ -1,6 +1,11 @@
 package graph;
 
 
+import transport.Car;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Daiy on 31.12.2017.
@@ -8,7 +13,7 @@ package graph;
  */
 public class Intersection {
     private int uniqueLabel;
-    private boolean hasBrokenCarOnIt = false;
+    private List<Car> brokenCars;
 
     public Intersection() {
     }
@@ -16,6 +21,7 @@ public class Intersection {
     public Intersection(int uniqueLabel) {
         super();
         this.uniqueLabel = uniqueLabel;
+        brokenCars = new ArrayList<>();
     }
 
     @Override
@@ -45,5 +51,14 @@ public class Intersection {
         return String.valueOf(uniqueLabel);
     }
 
+    public synchronized List<Car> getBrokenCars() {
+        return brokenCars;
+    }
+
+    public synchronized void addBrokenCar(Car car) {
+        if (!brokenCars.contains(car)) {
+            brokenCars.add(car);
+        }
+    }
 
 }
