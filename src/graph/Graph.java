@@ -2,6 +2,7 @@ package graph;
 
 import buildings.CarService;
 import buildings.EnvironmentalProtectionDataCenter;
+import transport.Car;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class Graph {
     private EnvironmentalProtectionDataCenter environmentalProtectionDataCenter;
     private final List<Integer> entryToCityIntersectionLabels = Arrays.asList(1, 16, 22, 31);
     private final List<Integer> carServiceIntersectionLabels = Arrays.asList(8, 10, 12, 14);
+    private final List<List<Integer>> intersectionLabelsBetweenBadRoads = Arrays.asList(Arrays.asList(1, 2), Arrays.asList(12, 13));
 
     public Graph(EnvironmentalProtectionDataCenter environmentalProtectionDataCenter) {
         carServices = Arrays.asList(new CarService(8), new CarService(10), new CarService(12), new CarService(14));
@@ -36,6 +38,8 @@ public class Graph {
         return carServiceIntersectionLabels;
     }
 
+    public List<List<Integer>> getIntersectionLabelsBetweenBadRoads() { return intersectionLabelsBetweenBadRoads; }
+
     public CarService findCarServiceByLabel(int label) {
         for (CarService carService : carServices) {
             if (carService.getCarServiceLabel() == label) {
@@ -43,6 +47,10 @@ public class Graph {
             }
         }
         return null; // Shouldn't happen
+    }
+
+    public EnvironmentalProtectionDataCenter getEnvironmentalProtectionDataCenter() {
+        return environmentalProtectionDataCenter;
     }
 
     public boolean addIntersection(int label) {

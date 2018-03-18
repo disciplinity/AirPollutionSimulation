@@ -4,9 +4,11 @@ import buildings.CarService;
 import buildings.EnvironmentalProtectionDataCenter;
 import graph.Graph;
 import graph.Intersection;
+import graph.StartingIntersection;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * Created by Daiy on 31.12.2017.
@@ -15,23 +17,32 @@ public class Car implements Runnable {
 
     private Random random = new Random();
     private EngineType engineType;
-    private Intersection currentIntersection;
+    private int badStreetsCrossed = 0;
     private int streetsCrossed = 0;
-    private final Graph graph;
     private EnvironmentalProtectionDataCenter environmentalProtectionDataCenter;
-    private final Intersection entryToTheCity;
+    private  StartingIntersection entryToTheCity;
     private static int totalCarCount = 0;
     private final int carId = ++totalCarCount;
     private boolean wantsToChangeEngine = false;
     private boolean hadEngineChanged = false;
+    private boolean hasMarmaladeTires = false;
     private int timesStoppedByEPDC = 0;
+    private boolean hasFlatTire;
+    private Intersection currentIntersection;
+    private Graph graph;
+
+
+    Car() {
+    }
+
 
     public Car(EngineType engineType, Graph graph, EnvironmentalProtectionDataCenter environmentalProtectionDataCenter) {
         this.engineType = engineType;
         this.graph = graph;
         this.environmentalProtectionDataCenter = environmentalProtectionDataCenter;
-        currentIntersection = new Intersection(graph.getEntryToCityIntersectionLabels().get(random.nextInt(4)));
-        entryToTheCity = new Intersection(currentIntersection.getLabel(), environmentalProtectionDataCenter.getCarStorage());
+        currentIntersection = getRandomEntryIntersection();
+        entryToTheCity = new StartingIntersection(currentIntersection.getLabel(), environmentalProtectionDataCenter.getCarStorage());
+        entryToTheCity.registerCar(this);
     }
 
     public EngineType getEngineType() {
@@ -42,57 +53,65 @@ public class Car implements Runnable {
         return wantsToChangeEngine;
     }
 
-    public boolean hadEngineChanged() {
-        return hadEngineChanged;
-    }
-
     public void setEngineType(EngineType engineType) {
         this.engineType = engineType;
         hadEngineChanged = true;
+    }
+
+    public void setWantsToChangeEngine(boolean wantsToChangeEngine) {
+        this.wantsToChangeEngine = wantsToChangeEngine;
     }
 
     public int getCarId() {
         return carId;
     }
 
-    public void letEnvironmentalProtectionDataCenterKnowAboutEngineChange() {
-        environmentalProtectionDataCenter.getCarStorage().getCars().add(this);
+    public void setMarmeladeTires() {
+        this.hasMarmaladeTires = true;
+    }
+
+    public boolean hasMarmaladeTires() {
+        return hasMarmaladeTires;
+    }
+
+    public void blowTires() {
+        hasFlatTire = false;
     }
 
 
     @Override
     public String toString() {
-        return "transport.Car[" + carId + "/" + engineType + "]";
+        String tires = hasMarmaladeTires ? "Marmalade" : "Normal";
+        return "Car[" + carId + "/" + engineType + "/Tires-" + tires + "]";
     }
 
     @Override
     public void run() {
-        entryToTheCity.registerCar(this);
-        System.out.println(this + " has ENTERED the graph from graph.Intersection[" + entryToTheCity.getLabel() +"].");
+//        System.out.println(this + " has ENTERED the graph from Intersection[" + entryToTheCity.getLabel() +"].");
         while (true) {
             try {
-                System.out.println(this + " - Current intersection: " + currentIntersection.getLabel());
+                if (!(this instanceof TowingCar)) {
 
-                if (isOnTheIntersectionWithCarService()) {
-                    // One in six chance to decide upon changing the engine
-                    if (!hadEngineChanged && timesStoppedByEPDC >= 2 && random.nextInt(6) == 3
-                           && (engineType == EngineType.PETROL || engineType == EngineType.DIESEL)) {
+                    System.out.println(this + " - Current intersection: " + currentIntersection.getLabel());
 
-                        wantsToChangeEngine = true;
-                        removeSelfFromEnvironmentalProtectionDataCenter();
+                    if (isOnTheIntersectionWithCarService()) {
+                        // One in six chance to decide upon changing the engine
+                        if (allConditionsMetToChangeEngine()) {
+                            wantsToChangeEngine = true;
+                        }
+
+                        goToCarService();
                     }
 
-                    goToCarService();
-                }
+                    if (streetsCrossed % 5 == 0 & streetsCrossed != 0) {
+                        sendEngineDataToEnvironmentalProtectionDataCenter();
+                    }
+                    if (streetsCrossed % 7 == 0 && streetsCrossed != 0) {
+                        boolean hasWaited = askEnvironmentalProtectionDataCenterIfShouldWait();
 
-                if (streetsCrossed % 5 == 0 &  streetsCrossed != 0) {
-                    sendEngineDataToEnvironmentalProtectionDataCenter();
-                }
-                if (streetsCrossed % 7 == 0 && streetsCrossed != 0) {
-                    boolean hasWaited = askEnvironmentalProtectionDataCenterIfShouldWait();
-
-                    if (hasWaited) {
-                        timesStoppedByEPDC++;
+                        if (hasWaited) {
+                            timesStoppedByEPDC++;
+                        }
                     }
                 }
 
@@ -110,18 +129,48 @@ public class Car implements Runnable {
         environmentalProtectionDataCenter.updateTotalAmountOfAirPollution(engineType);
     }
 
-    private void crossStreet() throws InterruptedException {
-        Thread.sleep(random.nextInt(18) + 3);
+    protected void crossStreet() throws InterruptedException {
+//        Thread.sleep(1000);
+        int intersectionLabelWeCameFrom = currentIntersection.getLabel();
+//        Thread.sleep(1000);
+        //Thread.sleep(random.nextInt(18) + 3);
         List<Intersection> adjacentIntersections = graph.getAdjIntersections(currentIntersection);
         currentIntersection = adjacentIntersections.get(random.nextInt(adjacentIntersections.size()));
+        int intersectionLabelWeWentTo = currentIntersection.getLabel();
         streetsCrossed++;
+
+        if (!hasMarmaladeTires) {
+            if (crossedBadStreet(intersectionLabelWeCameFrom, intersectionLabelWeWentTo)) {
+                badStreetsCrossed++;
+
+                if (badStreetsCrossed == 3) { // Goes back to 0 when it gets fixed by another car
+                    hasFlatTire = true;
+                    while (hasFlatTire) {
+                        System.out.println(this + " has FLAT TIRE at Intersection " + currentIntersection.getLabel());
+                        currentIntersection.addBrokenCar(this);
+                        environmentalProtectionDataCenter.sendOutTowingCar();
+                    }
+                }
+            }
+        }
+
     }
+
+    private boolean crossedBadStreet(int firstIntersectionLabel, int secondIntersectionLabel) {
+        for (List<Integer> labels : graph.getIntersectionLabelsBetweenBadRoads()) {
+            if (labels.contains(firstIntersectionLabel) && labels.contains(secondIntersectionLabel)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private boolean askEnvironmentalProtectionDataCenterIfShouldWait() throws InterruptedException {
         return environmentalProtectionDataCenter.tellCarToWaitIfPollutionIsTooHigh(engineType);
     }
 
-    private void goToCarService() {
+    private void goToCarService() throws InterruptedException {
         CarService carService = graph.findCarServiceByLabel(currentIntersection.getLabel());
         carService.workOnCar(this);
     }
@@ -130,9 +179,16 @@ public class Car implements Runnable {
         return graph.getCarServiceIntersectionLabels().contains(currentIntersection.getLabel());
     }
 
-    private void removeSelfFromEnvironmentalProtectionDataCenter() {
-        environmentalProtectionDataCenter.getCarStorage().getCars().remove(this);
+    private boolean allConditionsMetToChangeEngine() {
+        return !hadEngineChanged && timesStoppedByEPDC >= 2 && random.nextInt(6) == 3
+                && (engineType == EngineType.PETROL || engineType == EngineType.DIESEL);
     }
 
+    @SuppressWarnings("WeakerAccess") // I don't need it to be package private, rather want it to be protected
+    private Intersection getRandomEntryIntersection() {
+        return graph.getIntersections().stream()
+                .filter(s -> graph.getEntryToCityIntersectionLabels().contains(s.getLabel()))
+                .collect(Collectors.toList()).get(random.nextInt(graph.getEntryToCityIntersectionLabels().size()));
 
+    }
 }

@@ -2,7 +2,10 @@ package graph;
 
 
 import transport.Car;
-import utility.CarStorage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Daiy on 31.12.2017.
@@ -10,20 +13,15 @@ import utility.CarStorage;
  */
 public class Intersection {
     private int uniqueLabel;
-    private CarStorage carStorage;
+    private List<Car> brokenCars;
+
+    public Intersection() {
+    }
 
     public Intersection(int uniqueLabel) {
         super();
         this.uniqueLabel = uniqueLabel;
-    }
-
-    public Intersection(int uniqueLabel, CarStorage carStorage) {
-        this.uniqueLabel = uniqueLabel;
-        this.carStorage = carStorage;
-    }
-
-    public void registerCar(Car car) {
-        carStorage.registerCar(car);
+        brokenCars = new ArrayList<>();
     }
 
     @Override
@@ -51,6 +49,16 @@ public class Intersection {
     @Override
     public String toString() {
         return String.valueOf(uniqueLabel);
+    }
+
+    public synchronized List<Car> getBrokenCars() {
+        return brokenCars;
+    }
+
+    public synchronized void addBrokenCar(Car car) {
+        if (!brokenCars.contains(car)) {
+            brokenCars.add(car);
+        }
     }
 
 }

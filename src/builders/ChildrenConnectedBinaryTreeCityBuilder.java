@@ -4,7 +4,9 @@ import graph.Graph;
 import graph.Intersection;
 import graph.Street;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Daiy on 31.12.2017.
@@ -17,7 +19,7 @@ public class ChildrenConnectedBinaryTreeCityBuilder implements CityBuilder {
         this.graph = graph;
     }
 
-    public Graph build() {
+    public void build() {
 
         // Making binary tree (the root element is 1)
         Intersection intersection1, intersection2, intersection3;
@@ -33,6 +35,10 @@ public class ChildrenConnectedBinaryTreeCityBuilder implements CityBuilder {
             graph.addStreet(new Street(intersection2, intersection3));
         }
 
-        return graph;
+        List<Intersection> intersections = new ArrayList<>(graph.getIntersections());
     }
+
+
+
+
 }
