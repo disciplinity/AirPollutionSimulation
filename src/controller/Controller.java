@@ -1,13 +1,13 @@
-package Controller;
+package controller;
 
+import builders.ChildrenConnectedBinaryTreeCityBuilder;
+import builders.CityBuilder;
 import buildings.EnvironmentalProtectionDataCenter;
-import city.map.Graph;
+import graph.Graph;
 import transport.Car;
-import transport.CarStorage;
 import transport.EngineType;
-import city.builder.CityBuilder;
-import city.builder.ChildrenConnectedBinaryTreeCityBuilder;
 import utility.BirdSingingTask;
+import utility.CarStorage;
 import utility.Flag;
 import utility.PollutionResetTimerTask;
 
@@ -29,10 +29,10 @@ public class Controller {
      *                                   2 O _____ O 3
      *                                   / \      / \
      *                                  /   \    /   \
-     *                               4 O____O___O____O 7
+     *                               4 O____O   O____O 7
      *                                /\   /\   /\  /\
      *                               / \  / \  / \ /  \
-     *                            8 O__O_O__O_O__O_O__O 15
+     *                            8 O__O O__O O__O O__O 15
      *                              ...
      *                              ...
      */
@@ -58,7 +58,7 @@ public class Controller {
         Thread birdThread = new Thread(new BirdSingingTask(environmentalProtectionDataCenter));
         birdThread.start();
 
-        // Putting cars in the city
+        // Putting cars in the graph
         for (int i = 1; i <= CARS_IN_THE_CITY; i++) {
             if (i <= CARS_IN_THE_CITY / 10) { // First 10% of cars will be either with lemonade or electric engine
                 engineType = engineTypes[random.nextInt(2)];

@@ -1,8 +1,9 @@
 package transport;
 
+import buildings.CarService;
 import buildings.EnvironmentalProtectionDataCenter;
-import city.map.Graph;
-import city.map.Intersection;
+import graph.Graph;
+import graph.Intersection;
 
 import java.util.List;
 import java.util.Random;
@@ -61,13 +62,13 @@ public class Car implements Runnable {
 
     @Override
     public String toString() {
-        return "Car[" + carId + "/" + engineType + "]";
+        return "transport.Car[" + carId + "/" + engineType + "]";
     }
 
     @Override
     public void run() {
         entryToTheCity.registerCar(this);
-        System.out.println(this + " has ENTERED the city from Intersection[" + entryToTheCity.getLabel() +"].");
+        System.out.println(this + " has ENTERED the graph from graph.Intersection[" + entryToTheCity.getLabel() +"].");
         while (true) {
             try {
                 System.out.println(this + " - Current intersection: " + currentIntersection.getLabel());
@@ -121,7 +122,8 @@ public class Car implements Runnable {
     }
 
     private void goToCarService() {
-        graph.findCarServiceByLabel(currentIntersection.getLabel()).workOnCar(this);
+        CarService carService = graph.findCarServiceByLabel(currentIntersection.getLabel());
+        carService.workOnCar(this);
     }
 
     private boolean isOnTheIntersectionWithCarService() {

@@ -1,4 +1,6 @@
-package transport;
+package utility;
+
+import transport.Car;
 
 import java.util.ArrayList;
 import java.util.List;

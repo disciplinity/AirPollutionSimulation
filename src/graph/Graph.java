@@ -1,9 +1,7 @@
-package city.map;
+package graph;
 
 import buildings.CarService;
 import buildings.EnvironmentalProtectionDataCenter;
-import transport.Car;
-import transport.CarStorage;
 
 import java.util.*;
 import java.util.stream.Collectors;

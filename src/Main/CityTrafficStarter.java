@@ -1,4 +1,4 @@
-package Runner;
+package Main;
 
 
 import controller.Controller;

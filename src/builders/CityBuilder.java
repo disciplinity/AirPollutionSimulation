@@ -1,6 +1,6 @@
-package city.builder;
+package builders;
 
-import city.map.Graph;
+import graph.Graph;
 
 /**
  * Created by Daiy on 02.01.2018.

@@ -23,7 +23,7 @@ public class Flag {
         environmentalProtectionDataCenter.allowCarsToDrive();
     }
 
-    public boolean isTimerOff() {
+    public boolean timerIsOff() {
         return timerIsOff;
     }
 }
